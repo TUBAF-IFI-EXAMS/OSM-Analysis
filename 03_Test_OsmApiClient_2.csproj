@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>_03_Test_OsmApiClient_2</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="OsmSharp.Core" Version="*"/>
+    <PackageReference Include="OsmApiClient" Version="*"/>
+  </ItemGroup>
+</Project>
