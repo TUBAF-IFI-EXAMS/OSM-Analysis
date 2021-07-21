@@ -23,12 +23,12 @@ namespace osm
             osmData.FilterData();
             
 
-            //Overpass overpass = new Overpass();
-            //overpass.path = @"freiberg.xml";
-            //overpass.filename = "freiberg.xml";
+            Overpass overpass = new Overpass();
+            overpass.path = @"freiberg.xml";
+            overpass.filename = "freiberg.xml";
 
-            //await Download.ToFile(overpass.ReturnURL(), overpass.filename);
-            //await overpass.FilterData();
+            await Download.ToFile(overpass.ReturnURL(), overpass.filename);
+            await overpass.FilterData();
 
 
         }
