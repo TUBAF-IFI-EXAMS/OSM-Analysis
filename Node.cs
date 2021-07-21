@@ -63,6 +63,10 @@ public void distance(uint method)
     double lat2 = _node2.lat;
     double lon2 = _node2.lon;
 
+    double laenge;
+
+    double erdradius = 6378.388;            // konstanter Erdradius in km
+
     /* 
     Auswahl der Berechnungsmethode:
             1 - einfache Berechnung mittels Pythagoras
@@ -80,18 +84,30 @@ public void distance(uint method)
 
             dx = d_lon * (lon2-lon1);
             dy = d_lat * (lat2-lat1);
-            Console.WriteLine($"Entfernung zwischen {_node1.description} und {_node2.description}: {Math.Sqrt(dx*dx+dy*dy)} km");
+            laenge = Math.Sqrt(dx*dx+dy*dy);
+            Console.WriteLine($"Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");
             break;
         case 2:
-            
+            d_lat = 111;
+            d_lon = 111* Math.Cos((lat1+lat2)/2*Math.PI/180);    // Berechnung des Abstands zweier Längengrade [Konvertierung in Bogenmaß erforderlich]
+            dx = d_lon * (lon2-lon1);
+            dy = d_lat * (lat2-lat1);
+            laenge = Math.Sqrt(dx*dx+dy*dy);
+            Console.WriteLine($"Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");
             break;
         case 3:
-            
+        lon1 = lon1 * Math.PI/180;
+        lat1 = lat1 * Math.PI/180;
+        lon2 = lon2 * Math.PI/180;
+        lat2 = lat2 * Math.PI/180;
+            laenge = erdradius * Math.Acos(Math.Sin(lat1)*Math.Sin(lat2)+Math.Cos(lat1)*Math.Cos(lat2)*Math.Cos(lon2-lon1));
             break;
         default: 
             throw new ArgumentException("Invalid method! Choose either 1, 2 or 3!");
             
-    }    
+    }
+
+    Console.WriteLine($"Methode {method}: Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");   
 }
 }
 

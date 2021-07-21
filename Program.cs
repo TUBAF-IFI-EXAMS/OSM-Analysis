@@ -23,7 +23,10 @@
             
             var calc = new Entfernungsberechnung(Node_TUBAF,Node_TUCH);
             calc.distance(model);
-            
+            model = 2;
+            calc.distance(model);
+            model = 3;
+            calc.distance(model);
 
         }
 
