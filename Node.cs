@@ -35,12 +35,24 @@ public node(double Latitude, double Longitude)
 
 public class Entfernungsberechnung{
 
-// Felder
+// Felder:
 
 node _node1;
 node _node2;
 
-// Konstruktoren
+// Eigenschaften:
+
+public string name { get; set; }
+
+// Konstruktoren:
+
+public Entfernungsberechnung(string Name, node Node1, node Node2){
+
+name = Name;
+_node1 = Node1;
+_node2 = Node2;
+
+}
 
 public Entfernungsberechnung(node Node1, node Node2){
 
@@ -49,21 +61,21 @@ _node2 = Node2;
 
 }
 
-// Methode zur Berechnung (kürzensten) Entfernung zweier Knoten
+// ----- |Methode zur Berechnung (kürzensten) Entfernung zweier Knoten | -----
 public void distance(uint method)
 {
 
-    // Variablen:
+// Variablen:
 
     double dx, dy;                          // Abstände P1 <--> P2 in km in kartesischen Koordinaten 
     double d_lat, d_lon;                    // Abstand zweier Breiten- bzw. Längengrade
 
-    double lat1 = _node1.lat;
-    double lon1 = _node1.lon;
-    double lat2 = _node2.lat;
-    double lon2 = _node2.lon;
+    double lat1 = _node1.lat;               // geographische Breite Knoten 1
+    double lon1 = _node1.lon;               // geographische Länge Knoten 1
+    double lat2 = _node2.lat;               // geographische Breite Knoten 2
+    double lon2 = _node2.lon;               // geographische Länge Knoten 2
 
-    double laenge;
+    double laenge;                          // kürzester Abstand der beiden Knoten
 
     double erdradius = 6378.388;            // konstanter Erdradius in km
 
@@ -78,30 +90,42 @@ public void distance(uint method)
     switch (method)
     {
         case 1: 
-            // Methode mittels planarer Trigonometrie (Satz des Pythagoras)
-            d_lat = 111;                    // fester Wert (konstant da "perfekte" Kugel)
-            d_lon = 71.5;                   // fester Wert (angepasst auf deutsche Längengrade)
 
-            dx = d_lon * (lon2-lon1);
-            dy = d_lat * (lat2-lat1);
-            laenge = Math.Sqrt(dx*dx+dy*dy);
-            Console.WriteLine($"Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");
+// Methode mittels planarer Trigonometrie (Satz des Pythagoras)
+
+            d_lat = 111;                                        // fester Wert (konstant da "perfekte" Kugel)
+            d_lon = 71.5;                                       // fester Wert (angepasst auf deutsche Längengrade)
+
+            dx = d_lon * (lon2-lon1);                           // Differenz der geographischen Längengrade
+            dy = d_lat * (lat2-lat1);                           // Differenz der geographischen Breitengrade
+            laenge = Math.Sqrt(dx*dx+dy*dy);                    // Berechnung des Abstands mittels Satz des Pythagoras
             break;
+
         case 2:
-            d_lat = 111;
-            d_lon = 111* Math.Cos((lat1+lat2)/2*Math.PI/180);    // Berechnung des Abstands zweier Längengrade [Konvertierung in Bogenmaß erforderlich]
-            dx = d_lon * (lon2-lon1);
-            dy = d_lat * (lat2-lat1);
-            laenge = Math.Sqrt(dx*dx+dy*dy);
-            Console.WriteLine($"Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");
+
+// erweiterte Methode mit variablem Abstand der Längengrade
+
+            d_lat = 111;                                        // Abstand der Breitengrade weiterhin konstant
+            d_lon = 111* Math.Cos(DegToRad((lat1+lat2)/2));     // Berechnung des Abstands zweier Längengrade [Konvertierung in Bogenmaß erforderlich]
+            dx = d_lon * (lon2-lon1);                           // Differenz der geographischen Längengrade
+            dy = d_lat * (lat2-lat1);                           // Differenz der geographischen Breitengrade
+            laenge = Math.Sqrt(dx*dx+dy*dy);                    // Berechnung des Abstands mittels Satz des Pythagoras
             break;
+        
         case 3:
-        lon1 = lon1 * Math.PI/180;
-        lat1 = lat1 * Math.PI/180;
-        lon2 = lon2 * Math.PI/180;
-        lat2 = lat2 * Math.PI/180;
+
+// Berechnung der Länge als Großkreisbogen mittels Kugelkoordinaten 
+
+            lon1 = DegToRad(lon1);                              //                     |        
+            lat1 = DegToRad(lat1);                              //                     |
+                                                                // Umwandlung in Bogenmaß für Kosinussatz                    
+            lon2 = DegToRad(lon2);                              //                     |   
+            lat2 = DegToRad(lat2);                              //                     |
+
             laenge = erdradius * Math.Acos(Math.Sin(lat1)*Math.Sin(lat2)+Math.Cos(lat1)*Math.Cos(lat2)*Math.Cos(lon2-lon1));
+
             break;
+
         default: 
             throw new ArgumentException("Invalid method! Choose either 1, 2 or 3!");
             
@@ -109,6 +133,7 @@ public void distance(uint method)
 
     Console.WriteLine($"Methode {method}: Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");   
 }
+    public double DegToRad(double angle) => angle * Math.PI/180;
 }
 
 
