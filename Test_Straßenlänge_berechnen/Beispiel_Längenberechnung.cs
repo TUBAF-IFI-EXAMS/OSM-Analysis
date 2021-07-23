@@ -1,13 +1,20 @@
 ﻿using System;
 
+// using-Direktiven für OSMSharp:
+using OsmSharp;
+
 // Test der unterschiedlichen Berechnungsmodelle zur Bestimmung des Abstands zweier Punkte auf der Erdoberfläche
 
-    public class Program
+    public class Beispiel_Längenberechnung
     {
 
         static void Main(string[] args)
         {
-        
+            
+            // Entfernung
+
+            double Entfernung = 0.0;
+
             // Berechnungsmodell:
             
             // Punkt 1: Universitätshauptgebäude TUBAF (Quelle: Google Maps)
@@ -47,10 +54,27 @@
             foreach (Entfernungsberechnung Strecke in Strecken){
             Console.WriteLine($"{Strecke.name}: ");
             for (uint model = 1; model<=3; model++){
-                Strecke.distance(model);    
+                Entfernung = Strecke.distance(model);  
+                Console.WriteLine($"Methode {model}: Entfernung = {Entfernung} km");  
             }
+            }
+
+            // Berechnung der Gesamtlänge über einen Array:
+
+            node [] nodeArray = new node[] {Node_TUBAF,  Node_Metallkunde, Node_Lampadiusbau};
+            double laenge_way=0.0;
+
+            for (int i=1; i<nodeArray.Length; i++)
+            {
+                Entfernungsberechnung Polygonzug = new Entfernungsberechnung(nodeArray[i-1],nodeArray[i]);
+                laenge_way += Polygonzug.distance(2);
             }
            
+           Console.WriteLine($"Gesamtlänge Polygonzug: {laenge_way} km");
+// waycurr   = Way[i]
+// node_curr = waytest.nodes[k]
+// lat_curr = node_curr.latitude
+
         }
 
     }

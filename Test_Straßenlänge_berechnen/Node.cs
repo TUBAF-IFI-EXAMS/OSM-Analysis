@@ -62,7 +62,7 @@ _node2 = Node2;
 }
 
 // ----- |Methode zur Berechnung (kürzensten) Entfernung zweier Knoten | -----
-public void distance(uint method)
+public double distance(uint method)
 {
 
 // Variablen:
@@ -131,7 +131,8 @@ public void distance(uint method)
             
     }
 
-    Console.WriteLine($"Methode {method}: Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");   
+    return laenge;
+    // Console.WriteLine($"Methode {method}: Entfernung zwischen {_node1.description} und {_node2.description}: { laenge } km");   
 }
     public double DegToRad(double angle) => angle * Math.PI/180;
 }
