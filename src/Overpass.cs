@@ -3,6 +3,7 @@ using System.IO;
 using OsmSharp.Streams;
 using System.Threading.Tasks;
 using System.Linq;
+using OsmSharp;
 
 
 
@@ -18,7 +19,7 @@ namespace osm
         public string elemente = "*";
         private OsmData osmData = new OsmData();
 
-
+         
         public string ReturnURL()
         {
             osmData.SearchForAdress(adress);
@@ -26,7 +27,7 @@ namespace osm
 
             return url;
         }
-
+        
         public async Task FilterData()
         {
             await using var fileStream = File.OpenRead(path);
@@ -65,9 +66,51 @@ namespace osm
                 Console.WriteLine(osmGeo.ToString());
             }
 
+            ExtractNodesFromWay(source);
+
         }
 
+        private void ExtractNodesFromWay(XmlOsmStreamSource source )
+        {   
 
+             var  extractways =(from os in source
+                             where os.Type == OsmSharp.OsmGeoType.Way 
+                             select os).Take(5);
+            
+            
+            Way testway = (Way)extractways.ElementAt(1);
+
+            var testwayToComplete = extractways.ToComplete();   
+            
+            long[] nodeIDs = testway.Nodes;
+
+            //Extrahieren alle nodes in source deren Ids   nodeIDs entsprechen      
+            var extractNodes = from s in source
+                    where s.Type == OsmSharp.OsmGeoType.Node
+                    join nid in nodeIDs on s.Id equals nid
+                    select s;
+
+            var nodesToComplete = extractNodes.ToComplete();
+            
+            Node[] nodes= new Node[nodesToComplete.Count()];
+
+            for(int i = 0; i<nodesToComplete.Count();i++)
+            {
+                nodes[i] = (Node)nodesToComplete.ElementAt(i);
+            }
+
+            Console.WriteLine("Ergebniss");
+            foreach (var osmGeo in nodes)
+            {
+                {
+                    // Ausgabe 
+                   Console.WriteLine(osmGeo.Latitude.ToString());
+                }
+            }
+            
+            
+            
+        }
 
 
 

@@ -19,8 +19,7 @@ namespace osm
 
             OsmData osmData = new OsmData();
             osmData.SearchForAdress(adress);
-            await osmData.GetOSMResults();
-            osmData.FilterData();
+          
             
 
             Overpass overpass = new Overpass();

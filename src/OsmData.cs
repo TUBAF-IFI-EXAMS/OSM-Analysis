@@ -12,12 +12,12 @@ using System.Linq;
 
 namespace osm
 {
-    class OsmData:IFilter
+    class OsmData
     {
 
         private BoundingBox box = new BoundingBox();
 
-        private Node[] sourceNode;
+     
         private ForwardGeocoder forwardGeocoder = new ForwardGeocoder();
 
          public BoundingBox Box => box;
@@ -84,67 +84,7 @@ namespace osm
 
         }
 
-        // Ergebnis direkt aus OSM API 
-        public async Task GetOSMResults()
-        {
 
-            var clientFactory = new ClientsFactory(null, new HttpClient(),
-           "https://master.apis.dev.openstreetmap.org/api/");
-            var client = clientFactory.CreateNonAuthClient();
-
-
-            // Begrenzung des gesuchtes Objektes
-            Bounds c = new Bounds();
-            c.MaxLongitude = (float)box.maxLongitude;
-            c.MaxLatitude = (float)box.maxLatitude;
-            c.MinLatitude = (float)box.minLatitude;
-            c.MinLongitude = (float)box.minLongitude;
-
-        
-            var map = await client.GetMap(c);
-            var firstNode = map.Nodes[0];
-            Console.WriteLine("Length " + map.Nodes.Length);
-        
-            sourceNode = map.Nodes;
-
-
-            var firstWay = map.Ways[0];
-
-
-            long nodeId = Convert.ToInt64(firstNode.Id.Value);
-            Console.WriteLine("Node ID " + firstNode.Id.Value);
-
-            var nodeHistory = await client.GetNode(nodeId);
-            var wayHiystory = await client.GetWay(Convert.ToInt64(firstWay.Id.Value));
-
-            Console.WriteLine(nodeHistory);
-            Console.WriteLine(nodeHistory.TimeStamp);
-            Console.WriteLine(nodeHistory.Tags);
-            Console.WriteLine(nodeHistory.Version);
-            Console.WriteLine("lat" + nodeHistory.Latitude);
-            Console.WriteLine(nodeHistory.Longitude);
-
-            Console.WriteLine(wayHiystory);
-            Console.WriteLine(wayHiystory.TimeStamp);
-            Console.WriteLine(wayHiystory.Tags);
-            Console.WriteLine(wayHiystory.Version);
-
-
-        }
-
-
-        public void FilterData()
-        {
-
-            var filtered2 = from osmGeo in sourceNode
-                            where osmGeo.Id % 100000 != 0 //  leave only objects with and id not  dividable by 100000.
-                            select osmGeo;
-            Console.WriteLine("Filtered Nodes:");
-            foreach (var osmGeo in filtered2)
-            {
-                Console.WriteLine(osmGeo.ToString());
-            }
-        }
 
 
     }
