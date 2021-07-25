@@ -2,15 +2,15 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace osm
+namespace OSM_Analysis
 {
     /// <summary>
-    /// Contains code to download test files.
+    /// Daten aus Overpass API Herunterladen
     /// </summary>
     public static class Download
     {
         /// <summary>
-        /// Downloads a file if it doesn't exist yet.
+        /// Daten Herunterladen falls Datei nicht exiestiert
         /// </summary>
         public static async Task ToFile(string url, string filename)
         {
