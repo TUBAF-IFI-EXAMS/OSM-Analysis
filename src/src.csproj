@@ -3,8 +3,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OsmSharp.Core" Version="*"/>
     <PackageReference Include="Nominatim.API" Version="*"/>
+    <PackageReference Include="OsmSharp.Core" Version="*"/>
   </ItemGroup>
 </Project>

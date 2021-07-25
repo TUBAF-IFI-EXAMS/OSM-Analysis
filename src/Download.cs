@@ -2,7 +2,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace OSM_Analysis
+namespace src
 {
     /// <summary>
     /// Daten aus Overpass API Herunterladen

@@ -2,7 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using OsmSharp.Streams;
 
-namespace OSM_Analysis
+namespace src
 {
     /// <summary>
     /// Class zum Laden der zu analysierende Daten
@@ -11,7 +11,7 @@ namespace OSM_Analysis
     {
         private string fileName;
         private FileStream fileStream;
-        private OsmStreamSource source;
+        protected OsmStreamSource source;
     
         public LoadData(string fileName)
         {

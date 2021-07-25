@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace OSM_Analysis
+namespace src
 {
     class OsmDataSearch
     {
@@ -60,7 +60,6 @@ namespace OSM_Analysis
         public string GetCityDataUrl()
         {
             
-          
             string querybox = $"{box.minLongitude},{box.minLatitude},{box.maxLongitude},{box.maxLatitude}]";
 
             // Url zum Download der Daten 
