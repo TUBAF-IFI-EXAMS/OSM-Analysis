@@ -5,41 +5,39 @@ using OsmSharp.Streams;
 
 namespace src
 {
-    class City :LoadData
+    class City : LoadData
     {
-        private string name;
-        private int postcode;
-        private int population;
-        private string country;
-        private double wayDistance;
+        protected string name;
+        protected int postcode;
+        protected int population;
+        protected string country;
+        protected double wayDistance;
 
 
-                
+
         public Way[] GetAllWays()
         {
-           
-            var wayTemp = from osmWays in source
-                          where osmWays.Type ==OsmSharp.OsmGeoType.Way
-                          select osmWays;
 
-            var wayTempToComplete = wayTemp.ToComplete();
+            var source = Source();
+            var wayTemp = (from osmWays in source
+                           where osmWays.Type == OsmSharp.OsmGeoType.Way
+                           select osmWays).ToArray();
 
-            Way[] allWays = new Way[wayTempToComplete.Count()];
+            Way[] allWays = new Way[wayTemp.Length];
 
+            Console.WriteLine(wayTemp.Length);
 
-            for(int i= 0; i<= allWays.Length; i++)
+            for (int i = 0; i < allWays.Length; i++)
             {
-                allWays[i] = (Way)wayTempToComplete.ElementAt(i);
+                allWays[i] = (Way)wayTemp[i];
             }
-            Console.WriteLine("Es sind + " + allWays.Length + "Ways");
-
 
             return allWays;
 
         }
-        
-        
-        public City(string fileName) : base( fileName)
+
+
+        public City(string fileName) : base(fileName)
         {
 
         }

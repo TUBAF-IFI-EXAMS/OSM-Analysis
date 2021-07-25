@@ -1,17 +1,18 @@
 using System.IO;
 using System.Threading.Tasks;
 using OsmSharp.Streams;
+using System;
 
 namespace src
 {
     /// <summary>
     /// Class zum Laden der zu analysierende Daten
     /// </summary>
-    class LoadData
+     class LoadData
     {
         private string fileName;
         private FileStream fileStream;
-        protected OsmStreamSource source;
+        private OsmStreamSource source;
     
         public LoadData(string fileName)
         {
@@ -19,12 +20,12 @@ namespace src
         }
 
 
-        private  OsmStreamSource  Source()
+        protected  OsmStreamSource  Source()
         {
             // Überprüfen ob datei vorhanden ist 
             if (File.Exists(fileName))
             {
-                
+               
                 this.fileStream = File.OpenRead(fileName);
 
                 // Überprufen ob der Datei die in der OsmStreamSource vorhandenen 
@@ -32,12 +33,12 @@ namespace src
 
                 if(Path.GetExtension(fileName)==".xml")
                 {
-                    return  this.source = new XmlOsmStreamSource(this.fileStream);
+                    return  source = new XmlOsmStreamSource(fileStream);
                 }
 
                 else if(Path.GetExtension(fileName)==".osm.pbf") 
                 {
-                    return  this.source = new PBFOsmStreamSource(this.fileStream);
+                    return  source = new PBFOsmStreamSource(fileStream);
                 }
 
                 else
