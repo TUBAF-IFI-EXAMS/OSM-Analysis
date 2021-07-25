@@ -5,26 +5,45 @@ using OsmSharp.Streams;
 namespace OSM_Analysis
 {
     /// <summary>
-    /// Daten für die Analyse laden
+    /// Class zum Laden der zu analysierende Daten
     /// </summary>
     class LoadData
     {
         private string fileName;
         private FileStream fileStream;
-        private XmlOsmStreamSource source;
+        private OsmStreamSource source;
+    
         public LoadData(string fileName)
         {
             this.fileName = fileName;
         }
 
-        private  XmlOsmStreamSource  Source()
+
+        private  OsmStreamSource  Source()
         {
             // Überprüfen ob datei vorhanden ist 
-            if (!File.Exists(fileName))
+            if (File.Exists(fileName))
             {
-                this.fileStream = File.OpenRead(fileName);
-                return  this.source = new XmlOsmStreamSource(fileStream);
                 
+                this.fileStream = File.OpenRead(fileName);
+
+                // Überprufen ob der Datei die in der OsmStreamSource vorhandenen 
+                // Extension unterstützt!
+
+                if(Path.GetExtension(fileName)==".xml")
+                {
+                    return  this.source = new XmlOsmStreamSource(this.fileStream);
+                }
+
+                else if(Path.GetExtension(fileName)==".osm.pbf") 
+                {
+                    return  this.source = new PBFOsmStreamSource(this.fileStream);
+                }
+
+                else
+                {
+                    throw new InvalidDataException();
+                }
             }
             else
             {
