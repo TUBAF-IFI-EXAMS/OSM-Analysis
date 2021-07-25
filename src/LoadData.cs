@@ -4,6 +4,9 @@ using OsmSharp.Streams;
 
 namespace OSM_Analysis
 {
+    /// <summary>
+    /// Daten für die Analyse laden
+    /// </summary>
     class LoadData
     {
         private string fileName;
