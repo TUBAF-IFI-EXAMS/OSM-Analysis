@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace src
@@ -7,8 +8,10 @@ namespace src
     {
         static async Task Main(string[] args)
         {
-            string address = "Hainichen";
-            string filename = @"Hainichen.xml";
+           try 
+           {
+            string address = "Freiberg";
+            string filename = @"freiberg.xml";
             OsmDataSearch osmDataSearch = new OsmDataSearch();
             osmDataSearch.SearchForAdress(address);
           
@@ -22,7 +25,7 @@ namespace src
              await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
             FilteredCity filteredCity = new FilteredCity(filename);
    
-            filteredCity.GetspecificWay("Johanna-Römer-Straße");
+            
            
 
 
@@ -30,13 +33,18 @@ namespace src
             //cit.GetAllWays();
 
     // Berechnung der Straßenlänge
-    /*
+    
         double length = 0.0;
-        var Calc = new CalculateDistance();
-        length = Calc.CalculateNetLength(testnetz);
+        var Calc = new CalculateDistance(filename);
+        length = Calc.CalculateNetLength(filteredCity.GetspecificWay("Gustav-Zeuner-Straße"));
         Console.WriteLine($"Länge = {length} km");
-      */      
-
+           
+           }
+           catch(FileNotFoundException ex)
+           {
+               Console.WriteLine(ex);
+           }
+        
         }
     }
 }

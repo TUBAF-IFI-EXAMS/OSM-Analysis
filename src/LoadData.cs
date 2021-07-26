@@ -33,10 +33,10 @@ namespace src
 
                 if(Path.GetExtension(fileName)==".xml")
                 {
-                    return  source = new XmlOsmStreamSource(fileStream);
+                    return  source = new XmlOsmStreamSource(fileStream);        // Dateiendung .xml [xml]
                 }
 
-                else if(Path.GetExtension(fileName)==".osm.pbf") 
+                else if(Path.GetExtension(fileName)==".pbf")                    // Dateiendung .osm.pbf [binary]
                 {
                     return  source = new PBFOsmStreamSource(fileStream);
                 }

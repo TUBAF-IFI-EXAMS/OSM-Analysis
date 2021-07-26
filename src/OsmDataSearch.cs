@@ -42,9 +42,6 @@ namespace src
             
             box = (BoundingBox)searchResults.BoundingBox;
             
-           
-
-         
         }
 
         public string GetCityDataUrl()
