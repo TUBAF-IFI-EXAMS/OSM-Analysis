@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 
 // using-Direktiven für OSMSharp:
 using OsmSharp;
@@ -78,3 +79,4 @@ using OsmSharp;
         }
 
     }
+*/
