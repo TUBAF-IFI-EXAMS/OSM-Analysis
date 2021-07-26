@@ -13,14 +13,14 @@ using OsmSharp.Streams;
         {
         
          var source = new XmlOsmStreamSource(File.OpenRead("Testmap.osm"));
-         var filtered = from osmGeo in source where osmGeo.Type == OsmGeoType.Way select osmGeo;
-         var filtered2 = from osmGeo in filtered where osmGeo.Id % 500 == 0 select osmGeo;
+         var filtered = (from osmGeo in source where osmGeo.Type == OsmGeoType.Way && osmGeo.Id % 100 == 0 select osmGeo).ToArray();
+         
+         Console.WriteLine($"Anzahl Wege: {filtered.Length}");
+         Way[] testnetz = new Way[filtered.Length];
 
-         Console.WriteLine($"Anzahl Wege: {filtered2.Count()}");
-         Way[] testnetz = new Way[filtered2.Count()];
-
-        for (int i=0; i<filtered2.Count();i++){
-            testnetz[i] = (Way)filtered2.ElementAt(i);              
+        for (int i=0; i<filtered.Length;i++){
+            testnetz[i] = (Way)filtered[i];   
+            Console.WriteLine($"Way {i} einfügen...");         
         }
 
         double length = 0.0;
