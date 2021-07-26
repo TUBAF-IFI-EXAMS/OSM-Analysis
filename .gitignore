@@ -1,18 +1,6 @@
-# .gitignore nach https://www.toptal.com/developers/gitignore/api/visualstudiocode
-# abgerufen 21.07.2021
+.DS_Store
 
-# typische VS-Code Dateien, die nicht ins Repo gepusht werden sollen
-
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-
-# Lokalen Verlauf von VS Code ignorieren
-.history/
-
-# Ignoriere alle lokalen Dateien
-.history
-.ionide
+output/
+bin/
+obj/
+.vscode/

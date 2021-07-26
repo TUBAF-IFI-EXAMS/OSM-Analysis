@@ -28,8 +28,14 @@ namespace src
 
             //LoadData loadData = new LoadData(filename);
             //cit.GetAllWays();
-
             
+    // Berechnung der Straßenlänge
+    /*
+        double length = 0.0;
+        var Calc = new CalculateDistance();
+        length = Calc.CalculateNetLength(testnetz);
+        Console.WriteLine($"Länge = {length} km");
+      */      
 
         }
     }
