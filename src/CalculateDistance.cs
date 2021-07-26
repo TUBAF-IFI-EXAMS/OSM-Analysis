@@ -83,10 +83,6 @@ public double CalculateNetLength(Way[] net)
     int NumberOfNodes;                                              // Anzahl der Knoten für einen Weg
 
     Way currentWay;                                                 // aktueller Weg
-    Node Node1, Node2;                                              // aktuelle Knoten
-
-    long NodeID1,NodeID2;                                           // aktuelle Knoten-IDs 
-    
     NumberOfWays = net.Length;                                      // Ermittelt Anzahl der ways im Array
     
     var source = new XmlOsmStreamSource(File.OpenRead("Testmap.osm"));
@@ -97,7 +93,7 @@ public double CalculateNetLength(Way[] net)
         
         NumberOfNodes = currentWay.Nodes.Length;                    // Ermittelt Anzahl der Knoten im aktuellen Weg
 
-Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");
+        Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");      // Ausgabe für Testzwecke
 
         long[] NodeArray = currentWay.Nodes;                        // Extrahiert Liste der Knoten-IDs
         Node[] WayNodes = GetNodesFromIDs(source,NodeArray);        // Liefert vollständige Knoten 
@@ -122,32 +118,6 @@ Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");
 
         }
 
-        /* for (int n = 1; n < NumberOfNodes; n++)
-        {
-            NodeID1 = currentWay.Nodes[n-1];
-            NodeID2 = currentWay.Nodes[n];
-
-            // Nodes aus nodeIDs auslesen
-            
-            Node1 = GetNodeFromNodeID(source,NodeID1);
-            Node2 = GetNodeFromNodeID(source,NodeID2);
-           
-            Entscheidung, welcher Algorithmus genutzt werden soll: 
-                    - Für Längengrade, welche betragsmäßig < 85° sind wird die vereinfachte Methode (Pythagoras mit interpoliertem d_lat) genutzt 
-                    - Für Werte nahe den Polen ist die Nutzung eines näherungsweise rechteckigen Gitternetzes unzureichend --> Kugelkoordinaten
-            
-            
-           if ((Math.Abs(Node1.Latitude ??0.0D) > 85) | (Math.Abs(Node2.Latitude ??0.0D) > 85))
-            {
-                NetLength += EstimateDistanceSphericalCoordinates(Node1,Node2);
-
-            }
-            else
-            {
-                NetLength += EstimateDistancePythagoras(Node1,Node2);
-            }
-
-        } */
         
     }
 
@@ -157,65 +127,26 @@ Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");
 
 }
 
-// Methode zum Auslesen eines vollständigen Node-Objekts aus der ID
-private Node GetNodeFromNodeID(XmlOsmStreamSource source, long NodeID)
-{
-
-// for begin
-var searchedNode = from osmGeo in source 
-where osmGeo.Type == OsmGeoType.Node && osmGeo.Id == NodeID 
-select osmGeo;                                                                              // filtert nach Objekt-Typ und Knoten-ID
-// for end
-/*
-       
-            
-            long[] nodeIDs = testway.Nodes;
-
-            //Extrahieren alle nodes in source deren Ids   nodeIDs entsprechen      
-            var extractNodes = from s in source
-                    where s.Type == OsmSharp.OsmGeoType.Node
-                    join nid in nodeIDs on s.Id equals nid
-                    select s;
-
-            var nodesToComplete = extractNodes.ToComplete();
-            
-            Node[] nodes= new Node[nodesToComplete.Count()];
-
-            for(int i = 0; i<nodesToComplete.Count();i++)
-            {
-                nodes[i] = (Node)nodesToComplete.ElementAt(i);
-            }
-
-*/
-//for anfag
-    // myarray [i] = (cast)searchedNode.ElementAt(i)
-//for end 
-var searchedNodeComplete = searchedNode.ToComplete();                                       // wandelt NodeID in komplettes Node-Objekt um
-
-Node nodeObject = (Node)searchedNodeComplete.ElementAt(0);                                  // Cast zum Node
-
-return nodeObject;                                                                          // gibt Knoten zurück
-// return array
-}
+// Methode zum Auslesen einer Liste vollständiger Node-Objekte aus IDs
 
 private Node[] GetNodesFromIDs(XmlOsmStreamSource source, long[] NodeID)
 {
-    Console.WriteLine("Starte Datenauslesung");
+    Console.WriteLine("Starte Datenauslesung");                                   // Ausgabe zur Zeitmessung  
          
             var extractNodes = (from s in source
                     where s.Type == OsmSharp.OsmGeoType.Node
                     join nid in NodeID on s.Id equals nid
-                    select s).ToArray();                                           //Extrahieren alle nodes in source deren Ids nodeIDs entsprechen 
+                    select s).ToArray();                                           // Extrahieren alle nodes in source deren Ids nodeIDs entsprechen 
     Console.WriteLine("nodecast");
             Node[] nodes= new Node[extractNodes.Length];
 
             for(int i = 0; i<extractNodes.Length;i++)
             {
-                nodes[i] = (Node)extractNodes[i];
+                nodes[i] = (Node)extractNodes[i];                               // Cast zu Nodes
             }
     Console.WriteLine("starte Rechnung");
 
-    return nodes;
+    return nodes;                                                               // Gibt Array von Nodes zurück
 }    
 }
 
