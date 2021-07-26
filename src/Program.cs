@@ -23,19 +23,12 @@ namespace src
             FilteredCity filteredCity = new FilteredCity(filename);
    
             filteredCity.GetspecificWay("Johanna-Römer-Straße");
-
-
-           // LoadData loadData = new LoadData(filename);
-           //cit.GetAllWays();
-
-            try{
-                
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
            
+
+
+            //LoadData loadData = new LoadData(filename);
+            //cit.GetAllWays();
+
             
 
         }
