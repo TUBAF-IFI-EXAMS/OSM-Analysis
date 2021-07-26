@@ -6,7 +6,7 @@ using System;
 namespace src
 {
     /// <summary>
-    /// Class zum Laden der zu analysierende Daten
+    /// Klasse zum Laden der zu analysierende Daten
     /// </summary>
      class LoadData
     {
@@ -28,7 +28,7 @@ namespace src
                
                 this.fileStream = File.OpenRead(fileName);
 
-                // Überprufen ob der Datei die in der OsmStreamSource vorhandenen 
+                // Überprüfen, ob der Datei die in der OsmStreamSource vorhandenen 
                 // Extension unterstützt!
 
                 if(Path.GetExtension(fileName)==".xml")

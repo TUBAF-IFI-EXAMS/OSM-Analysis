@@ -16,6 +16,7 @@ namespace src
         public string elementType = "*";
         private ForwardGeocoder forwardGeocoder = new ForwardGeocoder();
 
+        public static GeocodeResponse localInfo;
          public BoundingBox Box => box;
 
         // Ort suchen  
@@ -36,26 +37,13 @@ namespace src
 
             // Suchergebniss
             var searchResults = geocodeResponses.Result[0];
-
+            localInfo =searchResults;
+            
             box = (BoundingBox)searchResults.BoundingBox;
-
-            //Ausgabe der Ergebnisse 
-            Console.WriteLine($"Freiberg ID {searchResults.PlaceID}");
-
-            Console.WriteLine($"maxlat = {box.maxLatitude} maxlong = {box.maxLongitude}      minlong  = {box.minLongitude} minlat = {box.minLatitude}");
-
-            Console.WriteLine($"OSmid {searchResults.OSMID}, OSMType: {searchResults.OSMType}, Class :{searchResults.Class} ClassType :  {searchResults.ClassType} Category:  {searchResults.Category}");
-
-
-            foreach (KeyValuePair<string, string> elements in searchResults.AlternateNames)
-            {
-                Console.WriteLine("{0} and {1}", elements.Key, elements.Value);
-            }
-
+           
 
          
         }
-
 
         public string GetCityDataUrl()
         {

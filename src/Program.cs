@@ -7,14 +7,26 @@ namespace src
     {
         static async Task Main(string[] args)
         {
-            string address = "freiberg";
+            string address = "Dortmund";
             string filename = @"freiberg.xml";
             OsmDataSearch osmDataSearch = new OsmDataSearch();
             osmDataSearch.SearchForAdress(address);
-            await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
+            //await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
             City cit = new City(filename);
-            LoadData loadData = new LoadData(filename);
-           cit.GetAllWays();
+            
+            Console.WriteLine("Einwohner: " + cit.Population());
+            Console.WriteLine("Land: " + cit.Country);
+            Console.WriteLine("Stadt: " + cit.Name);
+            Console.WriteLine("PLZ: " + cit.PostalCode);
+            //cit.GetAllWays();
+            
+            FilteredCity filteredCity = new FilteredCity(filename);
+   
+            filteredCity.GetspecificWay("Johanna-Römer-Straße");
+
+
+           // LoadData loadData = new LoadData(filename);
+           //cit.GetAllWays();
 
             try{
                 
