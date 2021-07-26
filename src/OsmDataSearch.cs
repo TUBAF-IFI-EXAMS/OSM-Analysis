@@ -1,9 +1,10 @@
 using System;
-using System.Threading.Tasks;
+using System.Globalization;
+//using System.Threading.Tasks;
 using Nominatim.API.Models;
 using Nominatim.API.Geocoders;
-using System.Collections.Generic;
-using System.Linq;
+//using System.Collections.Generic;
+//using System.Linq;
 
 
 namespace src
@@ -17,7 +18,7 @@ namespace src
         private ForwardGeocoder forwardGeocoder = new ForwardGeocoder();
 
         public static GeocodeResponse localInfo;
-         public BoundingBox Box => box;
+        public BoundingBox Box => box;
 
         // Ort suchen  
         public void SearchForAdress(string address)
@@ -40,6 +41,7 @@ namespace src
             localInfo =searchResults;
             
             box = (BoundingBox)searchResults.BoundingBox;
+            
            
 
          
@@ -48,10 +50,11 @@ namespace src
         public string GetCityDataUrl()
         {
             
-            string querybox = $"{box.minLongitude},{box.minLatitude},{box.maxLongitude},{box.maxLatitude}]";
-
+            string querybox = $"{box.minLongitude.ToString(CultureInfo.InvariantCulture)},{box.minLatitude.ToString(CultureInfo.InvariantCulture)},{box.maxLongitude.ToString(CultureInfo.InvariantCulture)},{box.maxLatitude.ToString(CultureInfo.InvariantCulture)}";
+            Console.WriteLine(querybox);
             // Url zum Download der Daten 
-            string url = $"http://www.overpass-api.de/api/xapi?{elementType}[bbox={querybox}";
+            string url = $"http://www.overpass-api.de/api/xapi?*[bbox={querybox}]";
+            Console.WriteLine(url);
 
             return url;
         }

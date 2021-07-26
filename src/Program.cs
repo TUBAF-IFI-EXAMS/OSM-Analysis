@@ -7,11 +7,11 @@ namespace src
     {
         static async Task Main(string[] args)
         {
-            string address = "Dortmund";
-            string filename = @"freiberg.xml";
+            string address = "Hainichen";
+            string filename = @"Hainichen.xml";
             OsmDataSearch osmDataSearch = new OsmDataSearch();
             osmDataSearch.SearchForAdress(address);
-            //await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
+          
             City cit = new City(filename);
             
             Console.WriteLine("Einwohner: " + cit.Population());
@@ -19,7 +19,7 @@ namespace src
             Console.WriteLine("Stadt: " + cit.Name);
             Console.WriteLine("PLZ: " + cit.PostalCode);
             //cit.GetAllWays();
-            
+             await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
             FilteredCity filteredCity = new FilteredCity(filename);
    
             filteredCity.GetspecificWay("Johanna-Römer-Straße");
@@ -28,7 +28,7 @@ namespace src
 
             //LoadData loadData = new LoadData(filename);
             //cit.GetAllWays();
-            
+
     // Berechnung der Straßenlänge
     /*
         double length = 0.0;
