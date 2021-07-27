@@ -44,10 +44,11 @@ namespace src
         double abstand;                                                 // kürzester Abstand der beiden Knoten
 
         d_lon = 111* Math.Cos(DegToRad((lat1+lat2)/2));                 // Berechnung des Abstands zweier Längengrade [Konvertierung in Bogenmaß erforderlich]
+        Console.WriteLine(d_lon);
         dx = d_lon * (lon2-lon1);                                       // Differenz der geographischen Längengrade
         dy = d_lat * (lat2-lat1);                                       // Differenz der geographischen Breitengrade
         abstand = Math.Sqrt(dx*dx+dy*dy);                               // Berechnung des Abstands mittels Satz des Pythagoras
-        
+        //Console.WriteLine(abstand);
         return abstand;    
 
     }
@@ -96,8 +97,14 @@ namespace src
             Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");      // Ausgabe für Testzwecke
 
             long[] NodeArray = currentWay.Nodes;                        // Extrahiert Liste der Knoten-IDs
+            
+            for (int j = 0; j<NodeArray.Length; j++){
+                Console.WriteLine($"Node {j+1}: ID: {NodeArray[j]}");
+            }
+
             Node[] WayNodes = GetNodesFromIDs(NodeArray);               // Liefert vollständige Knoten 
             
+
             for (int n=1; n<NumberOfNodes; n++){
                 
                 /*
@@ -106,6 +113,8 @@ namespace src
                         - Für Werte nahe den Polen ist die Nutzung eines näherungsweise rechteckigen Gitternetzes unzureichend --> Kugelkoordinaten
                 */
                 
+                
+
             if ((Math.Abs(WayNodes[n-1].Latitude ??0.0D) > 85) || (Math.Abs(WayNodes[n].Latitude ??0.0D) > 85))
                 {
                     NetLength += EstimateDistanceSphericalCoordinates(WayNodes[n-1],WayNodes[n]);
@@ -141,15 +150,29 @@ namespace src
         Console.WriteLine("nodecast");
 
                 Node[] nodes= new Node[extractNodes.Length];
-
                 for(int i = 0; i<extractNodes.Length;i++)
-                {
+                {   
                     nodes[i] = (Node)extractNodes[i];                               // Cast zu Nodes
+                    Console.WriteLine($"NodeID nach cast: {i}: ID: {nodes[i].Id}");
                 }
+
+                Node[] sortedNodes = new Node[extractNodes.Length];                 // Umsortieren der ausgelesenen Knoten --> müssen mit Reihenfolge im way übereinstimmen
+
+                for (int j=0; j<NodeID.Length; j++){
+                for (int k=0; k<nodes.Length; k++){
+                
+                if(nodes[k].Id == NodeID[j]){
+                    sortedNodes[j]=nodes[k];
+                }
+
+                }}
+
         Console.WriteLine("starte Rechnung");
 
-        return nodes;                                                               // Gibt Array von Nodes zurück
+        return sortedNodes;                                                               // Gibt Array von Nodes zurück
     }
+
+    
 }    
 }
 
