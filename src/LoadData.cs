@@ -8,37 +8,55 @@ namespace src
     /// <summary>
     /// Klasse zum Laden der zu analysierende Daten
     /// </summary>
-     class LoadData
+    class LoadData
     {
-        private string fileName;
-        private FileStream fileStream;
-        private OsmStreamSource source;
-    
+
+        private string fileName;  // Dateiname
+        private FileStream fileStream; //Stream zum öffnen und Lesen eine Datei
+        private OsmStreamSource source; // Datenquelle
+
+
+
+        /// <summary>
+        ///     Konstruktor
+        /// </summary>
+        /// <param name="filename"></param>
         public LoadData(string fileName)
         {
             this.fileName = fileName;
         }
 
 
-        protected  OsmStreamSource  Source()
+
+        /// <summary>
+        ///    Versuchen eine Datei zu öffnen und lesen 
+        /// </summary>
+        /// <returns>Es wird eine StreamSource in  xml oder pbf Format zurückgegeben falls das  öffnen, lesen erfolgreich ist </returns>
+        protected OsmStreamSource Source()
         {
-            // Überprüfen ob datei vorhanden ist 
+
+            /// <summary>
+            /// Überprüfen ob datei vorhanden ist 
+            /// <summary>
+
             if (File.Exists(fileName))
             {
-               
+
                 this.fileStream = File.OpenRead(fileName);
 
-                // Überprüfen, ob der Datei die in der OsmStreamSource vorhandenen 
+                /// <summary>
+                /// Überprüfen, ob der Datei die in der OsmStreamSource vorhandenen 
                 // Extension unterstützt!
+                /// <summary>
 
-                if(Path.GetExtension(fileName)==".xml")
+                if (Path.GetExtension(fileName) == ".xml")
                 {
-                    return  source = new XmlOsmStreamSource(fileStream);        // Dateiendung .xml [xml]
+                    return source = new XmlOsmStreamSource(fileStream);        // Dateiendung .xml [xml]
                 }
 
-                else if(Path.GetExtension(fileName)==".pbf")                    // Dateiendung .osm.pbf [binary]
+                else if (Path.GetExtension(fileName) == ".pbf")                    // Dateiendung .osm.pbf [binary]
                 {
-                    return  source = new PBFOsmStreamSource(fileStream);
+                    return source = new PBFOsmStreamSource(fileStream);
                 }
 
                 else
@@ -48,12 +66,12 @@ namespace src
             }
             else
             {
-                
+
                 throw new FileNotFoundException();
             }
-         
+
         }
-        
+
 
 
     }
