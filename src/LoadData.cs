@@ -1,6 +1,5 @@
 using System.IO;
 using OsmSharp.Streams;
-using System;
 
 namespace src
 {
