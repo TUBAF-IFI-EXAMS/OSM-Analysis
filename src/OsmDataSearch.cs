@@ -1,11 +1,7 @@
 using System;
 using System.Globalization;
-//using System.Threading.Tasks;
 using Nominatim.API.Models;
 using Nominatim.API.Geocoders;
-//using System.Collections.Generic;
-//using System.Linq;
-
 
 namespace src
 {
