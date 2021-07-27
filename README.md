@@ -1,3 +1,4 @@
+![Logo: Osm-Analysis](https://github.com/DarioDagne/OSM-Analysis/blob/main/images/Bild-Readme-Logo.png)
 # Projekt: OSM-Analysis
 
 Dario Tome Jonaca  
