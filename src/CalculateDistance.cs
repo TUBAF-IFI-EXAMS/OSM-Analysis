@@ -44,11 +44,11 @@ namespace src
         double abstand;                                                 // kürzester Abstand der beiden Knoten
 
         d_lon = 111* Math.Cos(DegToRad((lat1+lat2)/2));                 // Berechnung des Abstands zweier Längengrade [Konvertierung in Bogenmaß erforderlich]
-        Console.WriteLine(d_lon);
+        
         dx = d_lon * (lon2-lon1);                                       // Differenz der geographischen Längengrade
         dy = d_lat * (lat2-lat1);                                       // Differenz der geographischen Breitengrade
         abstand = Math.Sqrt(dx*dx+dy*dy);                               // Berechnung des Abstands mittels Satz des Pythagoras
-        //Console.WriteLine(abstand);
+        
         return abstand;    
 
     }
@@ -94,13 +94,7 @@ namespace src
             
             NumberOfNodes = currentWay.Nodes.Length;                    // Ermittelt Anzahl der Knoten im aktuellen Weg
 
-            Console.WriteLine($"Weg: {w}: {NumberOfNodes} nodes");      // Ausgabe für Testzwecke
-
             long[] NodeArray = currentWay.Nodes;                        // Extrahiert Liste der Knoten-IDs
-            
-            for (int j = 0; j<NodeArray.Length; j++){
-                Console.WriteLine($"Node {j+1}: ID: {NodeArray[j]}");
-            }
 
             Node[] WayNodes = GetNodesFromIDs(NodeArray);               // Liefert vollständige Knoten 
             
@@ -123,7 +117,6 @@ namespace src
                 else
                 {
                     NetLength += EstimateDistancePythagoras(WayNodes[n-1],WayNodes[n]);
-                    Console.WriteLine($"{n}. Knoten, länge = {NetLength} km");
                 }
 
             }
@@ -140,20 +133,17 @@ namespace src
     // Methode zum Auslesen einer Liste vollständiger Node-Objekte aus IDs
 
     private Node[] GetNodesFromIDs(long[] NodeID)
-    {
-        Console.WriteLine("Starte Datenauslesung");                                   // Ausgabe zur Zeitmessung  
-            
+    {            
                 var extractNodes = (from s in Source()
                         where s.Type == OsmSharp.OsmGeoType.Node
                         join nid in NodeID on s.Id equals nid
                         select s).ToArray();                                         // Extrahieren alle nodes in source deren Ids nodeIDs entsprechen 
-        Console.WriteLine("nodecast");
+       
 
                 Node[] nodes= new Node[extractNodes.Length];
                 for(int i = 0; i<extractNodes.Length;i++)
                 {   
                     nodes[i] = (Node)extractNodes[i];                               // Cast zu Nodes
-                    Console.WriteLine($"NodeID nach cast: {i}: ID: {nodes[i].Id}");
                 }
 
                 Node[] sortedNodes = new Node[extractNodes.Length];                 // Umsortieren der ausgelesenen Knoten --> müssen mit Reihenfolge im way übereinstimmen
@@ -166,8 +156,6 @@ namespace src
                 }
 
                 }}
-
-        Console.WriteLine("starte Rechnung");
 
         return sortedNodes;                                                               // Gibt Array von Nodes zurück
     }

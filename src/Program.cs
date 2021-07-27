@@ -15,24 +15,18 @@ namespace src
             OsmDataSearch osmDataSearch = new OsmDataSearch();
             osmDataSearch.SearchForAdress(address);
           
-            City cit = new City(filename);
+            City city = new City(filename);
             
-            Console.WriteLine("Einwohner: " + cit.Population());
-            Console.WriteLine("Land: " + cit.Country);
-            Console.WriteLine("Stadt: " + cit.Name);
-            Console.WriteLine("PLZ: " + cit.PostalCode);
-            //cit.GetAllWays();
-             await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
+            Console.WriteLine("Einwohner: " + city.Population());
+            Console.WriteLine("Land: " + city.Country);
+            Console.WriteLine("Stadt: " + city.Name);
+            Console.WriteLine("PLZ: " + city.PostalCode);
+            
+            await Download.ToFile(osmDataSearch.GetCityDataUrl(),filename);
             FilteredCity filteredCity = new FilteredCity(filename);
    
-            
-           
 
-
-            //LoadData loadData = new LoadData(filename);
-            //cit.GetAllWays();
-
-    // Berechnung der Straßenlänge
+        // Berechnung der Straßenlänge
     
         double length = 0.0;
         var Calc = new CalculateDistance(filename);

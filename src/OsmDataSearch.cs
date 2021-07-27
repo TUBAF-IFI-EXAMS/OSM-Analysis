@@ -60,10 +60,9 @@ namespace src
         {
 
             string querybox = $"{box.minLongitude.ToString(CultureInfo.InvariantCulture)},{box.minLatitude.ToString(CultureInfo.InvariantCulture)},{box.maxLongitude.ToString(CultureInfo.InvariantCulture)},{box.maxLatitude.ToString(CultureInfo.InvariantCulture)}";
-            Console.WriteLine(querybox);
+
             // Url zum Download der Daten 
             string url = $"http://www.overpass-api.de/api/xapi?*[bbox={querybox}]";
-            Console.WriteLine(url);
 
             return url;
         }

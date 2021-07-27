@@ -67,8 +67,6 @@ namespace src
             for (int i = 0; i < specificWay.Length; i++)
             {
                 specificWay[i] = (Way)waysToFilter[i];
-                Console.WriteLine(specificWay[i].Id);
-
             }
 
             return specificWay;
